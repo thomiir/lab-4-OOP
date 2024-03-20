@@ -4,10 +4,13 @@
 
 carList* createEmpty()
 {
-	carList* myCarList = malloc(sizeof(carList)); 
-	myCarList->currentDIM = 0;
-	myCarList->maximumDIM = 1; 
-	myCarList->cars = malloc(myCarList->maximumDIM * sizeof(car));
+	carList* myCarList = malloc(sizeof(carList));
+	if (myCarList != NULL)
+	{
+		myCarList->currentDIM = 0;
+		myCarList->maximumDIM = 1;
+		myCarList->cars = malloc(myCarList->maximumDIM * sizeof(car));
+	}
 	return myCarList;
 }
 
@@ -15,16 +18,6 @@ void deleteCarList(carList* myCarList)
 {
 	free(myCarList->cars);
 	free(myCarList);
-}
-
-car createCar(char licPlate[], char carModel[], char carCat[], char carIsRented[])
-{
-	car newCar;
-	strcpy(newCar.carLicPlate, licPlate);
-	strcpy(newCar.carModel, carModel);
-	strcpy(newCar.carCat, carCat);
-	strcpy(newCar.carIsRented, carIsRented);
-	return newCar;
 }
 
 int findCar(carList* List, char licPlate[])
@@ -35,7 +28,7 @@ int findCar(carList* List, char licPlate[])
 	return -1;
 }
 
-int addCar(carList* List, car newCar)
+void addCar(carList* List, car newCar)
 {
 	if (List->currentDIM < List->maximumDIM)
 	{
@@ -46,14 +39,17 @@ int addCar(carList* List, car newCar)
 	{
 		int newMaxDIM = List->maximumDIM * 2;
 		car* newCars = realloc(List->cars, newMaxDIM * sizeof(car));
-		List->cars = newCars;
-		List->maximumDIM = newMaxDIM;
-		List->cars[List->currentDIM] = newCar;
-		List->currentDIM++;
+		if (newCars != NULL && List->cars != NULL)
+		{
+			List->cars = newCars;
+			List->maximumDIM = newMaxDIM;
+			List->cars[List->currentDIM] = newCar;
+			List->currentDIM++;
+		}
 	}
 }
 
-int deleteCar(carList* List, int pos)
+void deleteCar(carList* List, int pos)
 {
 	for (int i = pos; i < List->currentDIM - 1; i++)
 		List->cars[i] = List->cars[i + 1];

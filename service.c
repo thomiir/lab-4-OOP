@@ -15,7 +15,6 @@ int addCarSrv(carList* List, char licPlate[], char model[], char cat[], char isR
 		addCar(List, newCar);
 		return 0;
 	}
-
 		return -1; // eroare - masina deja exista in repo, deci nu avem ce adauga 
 }
 
@@ -71,89 +70,78 @@ carList* filterCarsByModelSrv(carList* List, char model[])
 	return newCarList;
 }
 
-int verifyIfAvailable(carList* List, char licPlate[])
+int verifyStatus(carList* List, char licPlate[], char status[])
 {
 	int position = findCar(List, licPlate);
 	if (position == -1)
 		return -2; // eroare - masina nu exista in repo
 
-	if (strcmp(List->cars[position].carIsRented, "inchiriata") == 0)
-		return -1; // masina este deja inchiriata
+	if (strcmp(List->cars[position].carIsRented, status) == 0)
+		return -1; // masina a fost deja returnata sau inchiriata
 	return position;
-}
-
-int verifyIfRented(carList* List, char licPlate[])
-{
-	int position = findCar(List, licPlate);
-	if (position == -1)
-		return -2; // eroare - masina nu exista in repo
-
-	if (strcmp(List->cars[position].carIsRented, "disponibila") == 0)
-		return -1; // masina a fost deja returnata
-	return position;
-
 }
 
 int rentCarSrv(carList* List, char licPlate[])
 {
-	int available = verifyIfAvailable(List, licPlate);
+	int available = verifyStatus(List, licPlate, "inchiriata");
 	if (available == -2 || available == -1)
 		return available; // eroare - masina nu exista sau a fost deja inchiriata
-	
-	\
-		strcpy(List->cars[available].carIsRented, "inchiriata");
+	strcpy(List->cars[available].carIsRented, "inchiriata");
 	return 0;
 }
 
 int returnCarSrv(carList* List, char licPlate[])
 {
-	int available = verifyIfRented(List, licPlate);
+	int available = verifyStatus(List, licPlate, "disponibila");
 	if (available == -2 || available == -1)
 		return available; // eroare - masina nu exista sau a fost deja returnata
+	strcpy(List->cars[available].carIsRented, "disponibila");
+	return 0;
+}
+
+int cmp(const car* car1, const car* car2, const char mode, const char* field)
+{
+	if (strcmp(field, "model") == 0)
+	{
+		if (mode == 'd')
+			return strcmp(car2->carModel, car1->carModel);
+		else
+			return strcmp(car1->carModel, car2->carModel);
+	}
 	else
 	{
-		strcpy(List->cars[available].carIsRented, "disponibila");
-		return 0;
+		if (mode == 'd')
+			return strcmp(car2->carCat, car1->carCat);
+		else
+			return strcmp(car1->carCat, car2->carCat);
 	}
-
 }
 
-int cmpModelAsc(const car car1, const car car2)
+void bsort(car* list, int DIM, char mode, char field[], int (*func)(car* car1, car* car2, char mode, char* field))
 {
-	return strcmp(car1.carModel, car2.carModel);
+	int b = 0, e = 1;
+	while (b == 0)
+	{
+		b = 1;
+		for (int i = 0; i<DIM-e; i++)
+			if (func(&list[i], &list[i + 1], mode, field) > 0)
+			{
+				car aux = list[i];
+				list[i] = list[i + 1];
+				list[i + 1] = aux;
+				b = 0;
+			}
+		e++;
+	}
 }
-
-int cmpModelDesc(const car car1, const car car2)
-{
-	return strcmp(car2.carModel, car1.carModel);
-}
-
 carList* sortCarsByModelSrv(carList* List, char mode)
 {
-	if (mode == 'c')
-		qsort(List->cars, List->currentDIM, sizeof(car), cmpModelAsc);
-	else
-		qsort(List->cars, List->currentDIM, sizeof(car), cmpModelDesc);
-	
+	bsort(List->cars, List->currentDIM, mode, "model", cmp);
 	return List;
-}
-
-int cmpCatAsc(const car car1, const car car2)
-{
-	return strcmp(car1.carCat, car2.carCat);
-}
-
-int cmpCatDesc(const car car1, const car car2)
-{
-	return strcmp(car2.carCat, car1.carCat);
 }
 
 carList* sortCarsByCatSrv(carList* List, char mode)
 {
-	if (mode == 'c')
-		qsort(List->cars, List->currentDIM, sizeof(car), cmpCatAsc);
-	else
-		qsort(List->cars, List->currentDIM, sizeof(car), cmpCatDesc);
-
+	bsort(List->cars, List->currentDIM, mode, "cat", cmp);
 	return List;
 }

@@ -25,14 +25,14 @@ void printList(carList* List)
 
 void addCarUI(carList* List)
 {
-	char licPlate[10], model[15], cat[15];
+	char licPlate[15], model[15], cat[15];
 	printf("Introduceti datele masinii pe care doriti sa o adaugati:\n");
 	printf("Numarul de inmatriculare: ");
-	scanf("%s", licPlate);
+	scanf_s("%s", licPlate, 15);
 	printf("Modelul:");
-	scanf("%s", model);
+	scanf_s("%s", model, 15);
 	printf("Categoria: ");
-	scanf("%s", cat);
+	scanf_s("%s", cat, 15);
 	int retValue = addCarSrv(List, licPlate, model, cat, "disponibila");
 	if (retValue == -1)
 		printf("Eroare la adaugarea masinii. Masina deja exista in baza de date!\n");
@@ -44,17 +44,17 @@ void addCarUI(carList* List)
 
 void modifyCarUI(carList* List)
 {
-	char licPlate[10], newLicPlate[10], newModel[15], newCat[15], newIsRented[15];
+	char licPlate[15], newLicPlate[15], newModel[15], newCat[15], newIsRented[15];
 	printf("Introduceti numarul de inmatriculare al masinii pe care doriti sa o modificati:");
-	scanf("%s", licPlate);
+	scanf_s("%s", licPlate, 15);
 	printf("Introduceti noul numar de inmatriculare al masinii:");
-	scanf("%s", newLicPlate);
+	scanf_s("%s", newLicPlate, 15);
 	printf("Introduceti noul model al masinii:");
-	scanf("%s", newModel);
+	scanf_s("%s", newModel, 15);
 	printf("Introduceti noua categorie a masinii:");
-	scanf("%s", newCat);
+	scanf_s("%s", newCat, 15);
 	printf("Introduceti noul status al masinii:");
-	scanf("%s", newIsRented);
+	scanf_s("%s", newIsRented, 15);
 	int retValue = modifyCarSrv(List, licPlate, newLicPlate, newModel, newCat, newIsRented);
 	if (retValue == -1)
 		printf("Eroare la modificarea masinii. Masina nu exista in baza de date!\n");
@@ -64,9 +64,9 @@ void modifyCarUI(carList* List)
 
 void deleteCarUI(carList* List)
 {
-	char licPlate[10];
+	char licPlate[15];
 	printf("Introduceti numarul de inmatriculare al masinii pe care doriti sa o stergeti:");
-	scanf("%s", licPlate);
+	scanf_s("%s", licPlate, 15);
 	int retValue = deleteCarSrv(List, licPlate);
 	if (retValue == -1)
 		printf("Eroare la stergerea masinii. Masina nu exista in baza de date!\n");
@@ -80,7 +80,7 @@ void filterCarsByCatUI(carList* List)
 	char cat[15];
 	carList* filteredList;
 	printf("Introduceti categoria dupa care doriti sa filtrati:");
-	scanf("%s", cat);
+	scanf_s("%s", cat, 15);
 	filteredList = filterCarsByCatSrv(List, cat);
 	if (filteredList->currentDIM != 0)
 	{
@@ -96,7 +96,7 @@ void filterCarsByModelUI(carList* List)
 	char model[15];
 	carList* filteredList;
 	printf("Introduceti modelul dupa care doriti sa filtrati:");
-	scanf("%s", model);
+	scanf_s("%s", model, 15);
 	filteredList = filterCarsByModelSrv(List, model);
 	if (filteredList->currentDIM != 0)
 	{
@@ -109,9 +109,9 @@ void filterCarsByModelUI(carList* List)
 
 void rentCarUI(carList* List)
 {
-	char licPlate[10];
+	char licPlate[15];
 	printf("Introduceti numarul de inmatriculare al masinii pe care doriti sa o inchiriati:");
-	scanf("%s", licPlate);
+	scanf_s("%s", licPlate, 15);
 	int retValue = rentCarSrv(List, licPlate);
 	if (retValue == 0)
 		printf("Masina a fost inchiriata cu succes!\n");
@@ -123,9 +123,9 @@ void rentCarUI(carList* List)
 
 void returnCarUI(carList* List)
 {
-	char licPlate[10];
+	char licPlate[15];
 	printf("Introduceti numarul de inmatriculare al masinii pe care doriti sa o returnati:");
-	scanf("%s", licPlate);
+	scanf_s("%s", licPlate, 15);
 	int retValue = returnCarSrv(List, licPlate);
 	if (retValue == 0)
 		printf("Masina a fost returnata cu succes!\n");
@@ -139,7 +139,7 @@ void sortCarsByModelUI(carList* List)
 {
 	char mode;
 	printf("Introduceti d pentru sortare descrescatoare, respectiv c pentru sortare crescatoare:\n");
-	scanf(" %c", &mode);
+	scanf_s(" %c", &mode, 1);
 	if (mode == 'd' || mode == 'c')
 		List = sortCarsByModelSrv(List, mode);
 	else printf("Mod invalid!\n");
@@ -149,7 +149,7 @@ void sortCarsByCatUI(carList* List)
 {
 	char mode;
 	printf("Introduceti d pentru sortare descrescatoare, respectiv c pentru sortare crescatoare:\n");
-	scanf(" %c", &mode);
+	scanf_s(" %c", &mode, 1);
 	if (mode == 'd' || mode == 'c')
 		List = sortCarsByCatSrv(List, mode);
 	else printf("Mod invalid!\n");
@@ -167,7 +167,7 @@ void run()
 		printList(List);
 
 		printMainMenu();
-		scanf("%d", &option);
+		scanf_s("%d", &option);
 
 		if (option == 1)
 			addCarUI(List);

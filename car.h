@@ -26,3 +26,11 @@ typedef struct
 	int currentDIM;
 	int maximumDIM;
 }carList;
+
+// creeaza un obiect de tip car
+// returneaza masina creata
+// char licPlate - numarul de inmatriculare al masinii
+// char carModel - modelul masinii
+// char carCat - categoria masinii
+// char carIsRented - statusul masinii
+car createCar(char licPlate[], char carModel[], char carCat[], char carIsRented[]);
