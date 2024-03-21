@@ -3,6 +3,7 @@
 #include "validator.h"
 #include <assert.h>
 #include <string.h>
+#include <stdio.h>
 
 // teste pentru repo
 
@@ -54,6 +55,7 @@ void testRepo()
 	deleteCar(testList, 0);
 	assert (testList->currentDIM == 1);
 
+	deleteCar(testList, 0);
 
 	// dealocam memoria
 
@@ -110,6 +112,7 @@ void testService()
 	// testam cu o categorie care sa nu contina nicio masina
 	carList* filteredList = filterCarsByCatSrv(testList, "suv");
 	assert (filteredList->currentDIM == 0);
+	deleteCarList(filteredList);
 
 	// testam cu o categorie care sa contina masini
 	filteredList = filterCarsByCatSrv(testList, "sport");
@@ -118,13 +121,14 @@ void testService()
 	assert (strcmp(filteredList->cars[0].carModel, "CORSA") == 0);
 	assert (strcmp(filteredList->cars[0].carCat, "sport") == 0);
 	assert (strcmp(filteredList->cars[0].carIsRented, "inchiriata") == 0);
-	
+	deleteCarList(filteredList);
 	
 	// test pentru filterCarsByModelSrv()
 
 	// testam cu un model care sa nu contina nicio masina
 	filteredList = filterCarsByModelSrv(testList, "VITARA");
 	assert (filteredList->currentDIM == 0);
+	deleteCarList(filteredList);
 
 	// testam cu un model care sa contina masini
 	filteredList = filterCarsByModelSrv(testList, "CORSA");
@@ -133,7 +137,7 @@ void testService()
 	assert (strcmp(filteredList->cars[0].carModel, "CORSA") == 0);
 	assert (strcmp(filteredList->cars[0].carCat, "sport") == 0);
 	assert (strcmp(filteredList->cars[0].carIsRented, "inchiriata") == 0);
-
+	deleteCarList(filteredList);
 	
 	// test pentru rentCarSrv()
 
@@ -185,6 +189,8 @@ void testService()
 	// testam descrescator
 	testList = sortCarsByCatSrv(testList, 'd');
 	assert(strcmp(testList->cars[0].carLicPlate, "CS-51-DDF") == 0);
+
+	deleteCarList(testList);
 }
 
 // teste pentru validator
