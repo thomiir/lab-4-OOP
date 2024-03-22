@@ -2,22 +2,18 @@
 #include <stdlib.h>
 #include <string.h>
 
-carList* createEmpty()
+carList createEmpty()
 {
-	carList* myCarList = malloc(sizeof(carList));
-	if (myCarList != NULL)
-	{
-		myCarList->currentDIM = 0;
-		myCarList->maximumDIM = 1;
-		myCarList->cars = malloc(myCarList->maximumDIM * sizeof(car));
-	}
+	carList myCarList;
+	myCarList.currentDIM = 0;
+	myCarList.maximumDIM = 10;
+	myCarList.cars = malloc(myCarList.maximumDIM * sizeof(car));
 	return myCarList;
 }
 
 void deleteCarList(carList* myCarList)
 {
 	free(myCarList->cars);
-	free(myCarList);
 }
 
 int findCar(carList* List, char licPlate[])

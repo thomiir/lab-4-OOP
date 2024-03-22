@@ -4,6 +4,7 @@
 #include <assert.h>
 #include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 // teste pentru repo
 
@@ -12,9 +13,9 @@ void testRepo()
 
 	// test pentru createEmpty()
 
-	carList *testList = createEmpty();
+	carList List = createEmpty(), *testList = &List;
 	assert (testList->currentDIM == 0);
-	assert (testList->maximumDIM == 1);
+	assert (testList->maximumDIM == 10);
 
 
 	// test pentru createCar()
@@ -60,6 +61,7 @@ void testRepo()
 	// dealocam memoria
 
 	deleteCarList(testList);
+	//free(testList);
 	
 }
 
@@ -70,7 +72,7 @@ void testService()
 
 	// test pentru addCarSrv()
 
-	carList *testList = createEmpty();
+	carList empty = createEmpty(), *testList = &empty;
 	
 	// testam cu o masina valida
 	assert (addCarSrv(testList, "AB-84-LKJ", "FX24", "mini", "disponibila") == 0);
@@ -110,34 +112,38 @@ void testService()
 	// test pentru filterCarsByCarSrv()
 
 	// testam cu o categorie care sa nu contina nicio masina
-	carList* filteredList = filterCarsByCatSrv(testList, "suv");
-	assert (filteredList->currentDIM == 0);
-	deleteCarList(filteredList);
+	carList filteredList = filterCarsByCatSrv(testList, "suv");
+	assert (filteredList.currentDIM == 0);
+	deleteCarList(&filteredList);
+
 
 	// testam cu o categorie care sa contina masini
 	filteredList = filterCarsByCatSrv(testList, "sport");
-	assert (filteredList->currentDIM == 1);
-	assert (strcmp(filteredList->cars[0].carLicPlate, "CS-51-DDF") == 0);
-	assert (strcmp(filteredList->cars[0].carModel, "CORSA") == 0);
-	assert (strcmp(filteredList->cars[0].carCat, "sport") == 0);
-	assert (strcmp(filteredList->cars[0].carIsRented, "inchiriata") == 0);
-	deleteCarList(filteredList);
-	
+	assert (filteredList.currentDIM == 1);
+	assert (strcmp(filteredList.cars[0].carLicPlate, "CS-51-DDF") == 0);
+	assert (strcmp(filteredList.cars[0].carModel, "CORSA") == 0);
+	assert (strcmp(filteredList.cars[0].carCat, "sport") == 0);
+	assert (strcmp(filteredList.cars[0].carIsRented, "inchiriata") == 0);
+	deleteCarList(&filteredList);
+
+
 	// test pentru filterCarsByModelSrv()
 
 	// testam cu un model care sa nu contina nicio masina
 	filteredList = filterCarsByModelSrv(testList, "VITARA");
-	assert (filteredList->currentDIM == 0);
-	deleteCarList(filteredList);
+	assert (filteredList.currentDIM == 0);
+	deleteCarList(&filteredList);
+
 
 	// testam cu un model care sa contina masini
 	filteredList = filterCarsByModelSrv(testList, "CORSA");
-	assert (filteredList->currentDIM == 1);
-	assert (strcmp(filteredList->cars[0].carLicPlate, "CS-51-DDF") == 0);
-	assert (strcmp(filteredList->cars[0].carModel, "CORSA") == 0);
-	assert (strcmp(filteredList->cars[0].carCat, "sport") == 0);
-	assert (strcmp(filteredList->cars[0].carIsRented, "inchiriata") == 0);
-	deleteCarList(filteredList);
+	assert (filteredList.currentDIM == 1);
+	assert (strcmp(filteredList.cars[0].carLicPlate, "CS-51-DDF") == 0);
+	assert (strcmp(filteredList.cars[0].carModel, "CORSA") == 0);
+	assert (strcmp(filteredList.cars[0].carCat, "sport") == 0);
+	assert (strcmp(filteredList.cars[0].carIsRented, "inchiriata") == 0);
+	deleteCarList(&filteredList);
+
 	
 	// test pentru rentCarSrv()
 

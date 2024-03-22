@@ -46,26 +46,26 @@ int deleteCarSrv(carList* List, char licPlate[])
 		return -1; // eroare - masina nu exista in repo, deci nu avem ce sterge
 }
 
-carList* filterCarsByCatSrv(carList* List, char cat[])
+carList filterCarsByCatSrv(carList* List, char cat[])
 {
-	carList *newCarList = createEmpty();
+	carList newCarList = createEmpty();
 	for (int i = 0; i < List->currentDIM; i++)
 		if (strcmp(List->cars[i].carCat, cat) == 0)
 		{
-			newCarList->cars[newCarList->currentDIM] = List->cars[i];
-			newCarList->currentDIM++;
+			newCarList.cars[newCarList.currentDIM] = List->cars[i];
+			newCarList.currentDIM++;
 		}
 	return newCarList;
 }
 
-carList* filterCarsByModelSrv(carList* List, char model[])
+carList filterCarsByModelSrv(carList* List, char model[])
 {
-	carList *newCarList = createEmpty();
+	carList newCarList = createEmpty();
 	for (int i = 0; i < List->currentDIM; i++)
 		if (strcmp(List->cars[i].carModel, model) == 0)
 		{
-			newCarList->cars[newCarList->currentDIM] = List->cars[i];
-			newCarList->currentDIM++;
+			newCarList.cars[newCarList.currentDIM] = List->cars[i];
+			newCarList.currentDIM++;
 		}
 	return newCarList;
 }

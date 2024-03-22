@@ -1,6 +1,7 @@
 #include "service.h"
 #include "implicit_input.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 void printMainMenu()
 {
@@ -78,14 +79,15 @@ void deleteCarUI(carList* List)
 void filterCarsByCatUI(carList* List)
 {
 	char cat[15];
-	carList* filteredList;
+	carList filteredList;
 	printf("Introduceti categoria dupa care doriti sa filtrati:");
 	scanf_s("%s", cat, 15);
 	filteredList = filterCarsByCatSrv(List, cat);
-	if (filteredList->currentDIM != 0)
+	if (filteredList.currentDIM != 0)
 	{
 		printf("Lista filtrata este:\n");
-		printList(filteredList);
+		printList(&filteredList);
+		deleteCarList(&filteredList);
 	}
 	else
 		printf("Nu exista nicio masina din aceasta categorie!\n");
@@ -94,17 +96,19 @@ void filterCarsByCatUI(carList* List)
 void filterCarsByModelUI(carList* List)
 {
 	char model[15];
-	carList* filteredList;
+	carList filteredList;
 	printf("Introduceti modelul dupa care doriti sa filtrati:");
 	scanf_s("%s", model, 15);
 	filteredList = filterCarsByModelSrv(List, model);
-	if (filteredList->currentDIM != 0)
+	if (filteredList.currentDIM != 0)
 	{
 		printf("Lista filtrata este:\n");
-		printList(filteredList);
+		printList(&filteredList);
+		deleteCarList(&filteredList);
 	}
 	else
 		printf("Nu exista acest model de masina!\n");
+	
 }
 
 void rentCarUI(carList* List)
@@ -157,7 +161,7 @@ void sortCarsByCatUI(carList* List)
 
 void run()
 {
-	carList *List = createEmpty();
+	carList empty = createEmpty(), *List = &empty;
 	int option;
 	addImplicitInput(List);
 

@@ -29,13 +29,13 @@ int deleteCarSrv(carList* List, char licPlate[]);
 // carList* List - pointer la lista de masini
 // char cat - categoria dupa care filtram
 // returneaza o alta lista, filtrata dupa categorie
-carList* filterCarsByCatSrv(carList* List, char cat[]);
+carList filterCarsByCatSrv(carList* List, char cat[]);
 
 // filtrarea listei de masini dupa model
 // carList* List - pointer la lista de masini
 // char model - modelul dupa care filtram
 // returneaza o alta lista, filtrata dupa model
-carList* filterCarsByModelSrv(carList* List, char model[]);
+carList filterCarsByModelSrv(carList* List, char model[]);
 
 // inchirierea unei masini
 // carList* List - pointer la lista de masini

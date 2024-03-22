@@ -2,7 +2,7 @@
 #include "car.h"
 
 // creeaza un vector vid
-carList* createEmpty();
+carList createEmpty();
 
 // eliberam zona de memorie alocata listei de masini
 // carList* List - pointer la lista de masini
