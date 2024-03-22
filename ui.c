@@ -87,10 +87,10 @@ void filterCarsByCatUI(carList* List)
 	{
 		printf("Lista filtrata este:\n");
 		printList(&filteredList);
-		deleteCarList(&filteredList);
 	}
 	else
 		printf("Nu exista nicio masina din aceasta categorie!\n");
+	deleteCarList(&filteredList);
 }
 
 void filterCarsByModelUI(carList* List)
@@ -104,10 +104,10 @@ void filterCarsByModelUI(carList* List)
 	{
 		printf("Lista filtrata este:\n");
 		printList(&filteredList);
-		deleteCarList(&filteredList);
 	}
 	else
 		printf("Nu exista acest model de masina!\n");
+	deleteCarList(&filteredList);
 	
 }
 

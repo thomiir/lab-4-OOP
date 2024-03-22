@@ -61,8 +61,6 @@ void testRepo()
 	// dealocam memoria
 
 	deleteCarList(testList);
-	//free(testList);
-	
 }
 
 // teste pentru service
